@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Common.ViewModels.CartItem>
+@{
+    ViewBag.Title = "AddCart";
+}
+
+<h2>Cart</h2>
+
+<table id="cart_table" class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Unit Price
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Inc
+            </th>
+            <th>
+                Sub
+            </th>
+            <th>
+                Delete
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr id="cartRow_@item.ProductId">
+            <td class="prods_id" style="display:none;">
+                @item.ProductId
+            </td>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.SingleUnitPrice
+            </td>
+            <td class="qty">
+                @item.Quantity
+            </td>
+            <td>
+                <button onclick="addInCart(@item.ProductId)">+</button>
+            </td>
+            <td>
+                <button onclick="subFromCart(@item.ProductId)">-</button>
+            </td>
+            <td>
+                <button onclick="deleteFromCart(@item.ProductId)">✖</button>
+            </td>
+        </tr>
+
+        }
+    </tbody>
+</table>
+
+<br />
+<button>Make order</button>
+<script src="~/Scripts/cart.js"></script>

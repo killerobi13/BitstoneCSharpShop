@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Common.ViewModels.Category>
+    @{
+        ViewBag.Title = "Insert";
+    }
+
+    <h2>Insert - Product</h2>
+
+    @{
+        var selectList = new SelectList(
+            Model, "Id", "Name");
+    }
+
+<form action=@Url.Action("Add","Product") method="post">
+    <label for="prod_name">Name:</label><br>
+    <input type="text" id="prod_name" name="Name"><br>
+    <label for="category">Category:</label><br>
+    @Html.DropDownList("Category", selectList, "None", new { @class = "css-class" })
+
+    <button>Add</button>
+</form>
+

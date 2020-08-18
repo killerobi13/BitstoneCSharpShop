@@ -48,8 +48,7 @@ namespace Shop.MVC
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
-
-
+            
             container.RegisterType<IUnitOfWork, UnitOfWork>();
             container.RegisterType<IProductService, ProductService>();
             container.RegisterType<IOrderService, OrderService>();
@@ -58,7 +57,11 @@ namespace Shop.MVC
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Product, Common.ViewModels.Product>();
+                cfg.CreateMap<Product, Common.ViewModels.Product>()
+                .ForMember(d => d.Category, d => d.MapFrom(x =>x.Category.Name));
+                cfg.CreateMap<Common.ViewModels.Product, Shop.DAL.Entities.Product>();
+                cfg.CreateMap<Category, Common.ViewModels.Category>();
+
             });
 
             IMapper mapper = config.CreateMapper();
