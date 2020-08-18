@@ -90,7 +90,10 @@ namespace Shop.Repository
 
         public virtual TEntity Insert(TEntity entity)
         {
-            return dbSet.Add(entity);
+            dbSet.Add(entity);
+            context.SaveChanges();
+
+            return entity;
         }
 
         public virtual TEntity Delete(object id)

@@ -12,8 +12,8 @@ namespace ServiceLayer.Services
     {
          IEnumerable<Common.ViewModels.Product> GetAll();
          Common.ViewModels.Product GetById(int id);
-         Common.ViewModels.Product Insert(Shop.DAL.Entities.Product product);
+         Common.ViewModels.Product Insert(Common.ViewModels.Product product);
          Common.ViewModels.Product Delete(int id);
-         Common.ViewModels.Product Update(int id);
+         void Update(Common.ViewModels.Product product);
     }
 }

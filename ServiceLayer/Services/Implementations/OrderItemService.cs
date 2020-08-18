@@ -1,4 +1,7 @@
-﻿using ServiceLayer.Services.Interfaces;
+﻿using AutoMapper;
+using Common.ViewModels;
+using ServiceLayer.Services.Interfaces;
+using Shop.UnitsOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +12,13 @@ namespace ServiceLayer.Services.Implementations
 {
     public class OrderItemService : IOrderItemService
     {
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
+        public OrderItemService(IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
+        }
         public Common.ViewModels.OrderItem Delete(int id)
         {
             throw new NotImplementedException();
@@ -16,22 +26,28 @@ namespace ServiceLayer.Services.Implementations
 
         public IEnumerable<Common.ViewModels.OrderItem> GetAll()
         {
-            throw new NotImplementedException();
+            var orderItems = unitOfWork.OrderItemRepository.Get();
+
+            return mapper.Map<IEnumerable<Shop.DAL.Entities.OrderItem>, IEnumerable<Common.ViewModels.OrderItem>>(orderItems);
         }
 
         public Common.ViewModels.OrderItem GetById(int id)
         {
-            throw new NotImplementedException();
+            return mapper.Map<Shop.DAL.Entities.OrderItem, Common.ViewModels.OrderItem>(unitOfWork.OrderItemRepository.GetByID(id));
         }
 
-        public Common.ViewModels.OrderItem Insert(Shop.DAL.Entities.OrderItem orderItem)
+
+        public OrderItem Insert(OrderItem orderItem)
         {
-            throw new NotImplementedException();
+            var retOrderItem = unitOfWork.OrderItemRepository.Insert(mapper.Map<Common.ViewModels.OrderItem, Shop.DAL.Entities.OrderItem>(orderItem));
+
+            return mapper.Map<Shop.DAL.Entities.OrderItem, Common.ViewModels.OrderItem>(retOrderItem);
         }
 
-        public Common.ViewModels.OrderItem Update(int id)
+        public void Update(OrderItem orderItem)
         {
-            throw new NotImplementedException();
+            var dalOrderItem = mapper.Map<Common.ViewModels.OrderItem, Shop.DAL.Entities.OrderItem>(orderItem);
+            unitOfWork.OrderItemRepository.Update(dalOrderItem);
         }
     }
 }

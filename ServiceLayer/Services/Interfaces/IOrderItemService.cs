@@ -10,8 +10,8 @@ namespace ServiceLayer.Services.Interfaces
     {
         IEnumerable<Common.ViewModels.OrderItem> GetAll();
         Common.ViewModels.OrderItem GetById(int id);
-        Common.ViewModels.OrderItem Insert(Shop.DAL.Entities.OrderItem orderItem);
+        Common.ViewModels.OrderItem Insert(Common.ViewModels.OrderItem orderItem);
         Common.ViewModels.OrderItem Delete(int id);
-        Common.ViewModels.OrderItem Update(int id);
+        void Update(Common.ViewModels.OrderItem orderItem);
     }
 }

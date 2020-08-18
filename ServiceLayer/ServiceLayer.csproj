@@ -59,9 +59,9 @@
       <Project>{83603F65-3EE0-48BE-A697-8F8797D3442A}</Project>
       <Name>Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
-      <Project>{D1912163-29C7-4BDA-973F-F746929F4EFD}</Project>
-      <Name>DataAccess</Name>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+      <Project>{1d5c7374-56db-4252-8929-850554acf138}</Project>
+      <Name>DataAccessLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

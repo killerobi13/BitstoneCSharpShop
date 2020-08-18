@@ -10,8 +10,8 @@ namespace ServiceLayer.Services.Interfaces
     {
         IEnumerable<Common.ViewModels.Category> GetAll();
         Common.ViewModels.Category GetById(int id);
-        Common.ViewModels.Category Insert(Shop.DAL.Entities.Category category);
+        Common.ViewModels.Category Insert(Common.ViewModels.Category category);
         Common.ViewModels.Category Delete(int id);
-        Common.ViewModels.Category Update(int id);
+        void Update(Common.ViewModels.Category category);
     }
 }

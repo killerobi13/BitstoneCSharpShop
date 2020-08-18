@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.ViewModels;
+using Microsoft.SqlServer.Server;
 using Shop.UnitsOfWork;
 using System;
 using System.Collections.Generic;
@@ -27,24 +28,31 @@ namespace ServiceLayer.Services.Implementations
 
         public Product GetById(int id)
         {
-            var product = unitOfWork.ProductRepository.GetByID(id);
-            return mapper.Map<Shop.DAL.Entities.Product, Common.ViewModels.Product>(product);
+            var product = unitOfWork.ProductRepository.Get(filter: q=> q.Id==id, includeProperties: "Category" );
+            if(product.Count()>0)
+                return mapper.Map<Shop.DAL.Entities.Product, Common.ViewModels.Product>(product.ElementAt(0));
+            else
+                return null;
+
         }
 
-        public Product Insert(Shop.DAL.Entities.Product product)
+        public Product Insert(Common.ViewModels.Product product)
         {
-            return mapper.Map<Shop.DAL.Entities.Product, Common.ViewModels.Product>(unitOfWork.ProductRepository.Insert(product));
+
+            var retProduct = unitOfWork.ProductRepository.Insert(mapper.Map < Common.ViewModels.Product, Shop.DAL.Entities.Product >(product));
+            
+            return mapper.Map<Shop.DAL.Entities.Product, Common.ViewModels.Product>(retProduct);
         }
 
         public Product Delete(int id)
         {
-            return mapper.Map<Shop.DAL.Entities.Product, Common.ViewModels.Product>(unitOfWork.ProductRepository.Insert(product));
+            return mapper.Map<Shop.DAL.Entities.Product, Common.ViewModels.Product>(unitOfWork.ProductRepository.Delete(id));
         }
 
-        public Product Update(int id)
+        public void Update(Common.ViewModels.Product product)
         {
-            throw new NotImplementedException();
+            var dalProduct = mapper.Map<Common.ViewModels.Product, Shop.DAL.Entities.Product>(product);
+            unitOfWork.ProductRepository.Update(dalProduct);
         }
-        
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Shop.Migrations
+﻿namespace DataAccess.Migrations
 {
     using Shop.DAL.Entities;
     using System;
@@ -28,11 +28,11 @@
             {
                 new Product(){ Id=2,
                     //Description="A great product"
-                    Name="Lenovo zen3",Category=categories[0] },
+                    Name="Lenovo zen3",Category=categories[0],Price = 77 },
                 new Product(){ Id=1,//Description="A beautiful product",
-                Name="Spartan Toy",Category=categories[2] },
+                Name="Spartan Toy",Category=categories[2],Price = 24 },
                 new Product(){ Id=2,//Description="A wonderful product",
-                 Name="The book of books",Category=categories[1] }
+                 Name="The book of books",Category=categories[1],Price = 11 }
             };
             products.ForEach(s => context.Products.Add(s));
             context.SaveChanges();
