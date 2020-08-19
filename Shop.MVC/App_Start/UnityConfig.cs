@@ -61,7 +61,6 @@ namespace Shop.MVC
                 .ForMember(d => d.Category, d => d.MapFrom(x =>x.Category.Name));
                 cfg.CreateMap<Common.ViewModels.Product, Shop.DAL.Entities.Product>();
                 cfg.CreateMap<Category, Common.ViewModels.Category>();
-
             });
 
             IMapper mapper = config.CreateMapper();

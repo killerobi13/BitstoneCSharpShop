@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.ViewModels;
 using ServiceLayer.Services.Interfaces;
+using Shop.DAL.Entities;
 using Shop.UnitsOfWork;
 using System;
 using System.Collections.Generic;
@@ -19,35 +20,49 @@ namespace ServiceLayer.Services.Implementations
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-        public Common.ViewModels.Order Delete(int id)
+        //public Common.ViewModels.Order Delete(int id)
+        //{
+        //    return mapper.Map<Shop.DAL.Entities.Order, Common.ViewModels.Order>(unitOfWork.OrderRepository.Delete(id));
+        //}
+
+        //public IEnumerable<Common.ViewModels.Order> GetAll()
+        //{
+        //    var orders = unitOfWork.OrderRepository.Get();
+
+        //    return mapper.Map<IEnumerable<Shop.DAL.Entities.Order>, IEnumerable<Common.ViewModels.Order>>(orders);
+        //}
+
+        //public Common.ViewModels.Order GetById(int id)
+        //{
+        //    var order = unitOfWork.OrderRepository.GetByID(id);
+        //    return mapper.Map<Shop.DAL.Entities.Order, Common.ViewModels.Order>(order);
+        //}
+        //public void Update(Order order)
+        //{
+        //    var dalOrder = mapper.Map<Common.ViewModels.Order, Shop.DAL.Entities.Order>(order);
+        //    unitOfWork.OrderRepository.Update(dalOrder);
+        //}
+
+ 
+
+        public Order Insert(IEnumerable<OrderItemAdd> orderItemAdds)
         {
-            return mapper.Map<Shop.DAL.Entities.Order, Common.ViewModels.Order>(unitOfWork.OrderRepository.Delete(id));
-        }
+            Shop.DAL.Entities.Order dalOrder = new Shop.DAL.Entities.Order();
+            int total = 0;
+            dalOrder.OrderItems = new List<Shop.DAL.Entities.OrderItem>();
 
-        public IEnumerable<Common.ViewModels.Order> GetAll()
-        {
-            var orders = unitOfWork.OrderRepository.Get();
 
-            return mapper.Map<IEnumerable<Shop.DAL.Entities.Order>, IEnumerable<Common.ViewModels.Order>>(orders);
-        }
+            foreach (var orderItem in orderItemAdds)
+            {
+                // check item in product repo
+                // 
+                total += ;
 
-        public Common.ViewModels.Order GetById(int id)
-        {
-            var order = unitOfWork.OrderRepository.GetByID(id);
-            return mapper.Map<Shop.DAL.Entities.Order, Common.ViewModels.Order>(order);
-        }
+            }
 
-        public Order Insert(Common.ViewModels.Order order)
-        {
-            var retOrder = unitOfWork.OrderRepository.Insert(mapper.Map<Common.ViewModels.Order, Shop.DAL.Entities.Order>(order));
+            dalOrder.Total = total;
 
-            return mapper.Map<Shop.DAL.Entities.Order, Common.ViewModels.Order>(retOrder);
-        }
 
-        public void Update(Order order)
-        {
-            var dalOrder = mapper.Map<Common.ViewModels.Order, Shop.DAL.Entities.Order>(order);
-            unitOfWork.OrderRepository.Update(dalOrder);
         }
     }
 }

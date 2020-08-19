@@ -1,4 +1,5 @@
-﻿using ServiceLayer.Services;
+﻿using Common.ViewModels;
+using ServiceLayer.Services;
 using ServiceLayer.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,19 @@ namespace Shop.MVC.Controllers
 {
     public class OrderController : Controller
     {
-        private IProductService productService;
-        private ICategoryService categoryService;
+        private IOrderService orderService;
 
-        public OrderController(IProductService productService, ICategoryService categoryService)
+        public OrderController(IOrderService orderService)
         {
-            this.productService = productService;
-            this.categoryService = categoryService;
+            this.orderService = orderService;
         }
-        public ActionResult Index()
+        public ActionResult Create(IEnumerable<OrderItemAdd> orderItemAdds)
+        {
+            orderService.Insert(orderItemAdds);
+            return Json(new { error=false});
+        }
+
+        public ActionResult Display(int id)
         {
             return View();
         }

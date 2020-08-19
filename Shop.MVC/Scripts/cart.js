@@ -46,3 +46,13 @@ function deleteFromCart(id) {
         }
     });
 }
+
+function postOrder(){
+    $.ajax({
+        type: "POST",
+        url: '/Order/Create',
+        success: function (response) {
+            alert("good");
+        }
+    });
+}
