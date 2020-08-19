@@ -92,7 +92,6 @@ namespace Shop.Repository
         {
             dbSet.Add(entity);
             context.SaveChanges();
-
             return entity;
         }
 
@@ -111,12 +110,13 @@ namespace Shop.Repository
             }
             dbSet.Remove(entityToDelete);
         }
-
+ 
         public virtual void Update(TEntity entityToUpdate)
         {
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
         }
+
 
     }
 }

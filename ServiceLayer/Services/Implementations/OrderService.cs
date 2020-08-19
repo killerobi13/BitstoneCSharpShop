@@ -20,49 +20,50 @@ namespace ServiceLayer.Services.Implementations
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-        //public Common.ViewModels.Order Delete(int id)
-        //{
-        //    return mapper.Map<Shop.DAL.Entities.Order, Common.ViewModels.Order>(unitOfWork.OrderRepository.Delete(id));
-        //}
 
-        //public IEnumerable<Common.ViewModels.Order> GetAll()
-        //{
-        //    var orders = unitOfWork.OrderRepository.Get();
-
-        //    return mapper.Map<IEnumerable<Shop.DAL.Entities.Order>, IEnumerable<Common.ViewModels.Order>>(orders);
-        //}
-
-        //public Common.ViewModels.Order GetById(int id)
-        //{
-        //    var order = unitOfWork.OrderRepository.GetByID(id);
-        //    return mapper.Map<Shop.DAL.Entities.Order, Common.ViewModels.Order>(order);
-        //}
-        //public void Update(Order order)
-        //{
-        //    var dalOrder = mapper.Map<Common.ViewModels.Order, Shop.DAL.Entities.Order>(order);
-        //    unitOfWork.OrderRepository.Update(dalOrder);
-        //}
-
- 
-
-        public Order Insert(IEnumerable<OrderItemAdd> orderItemAdds)
+        Common.ViewModels.Order IOrderService.Insert(IEnumerable<OrderItemAdd> orderItemAdds)
         {
             Shop.DAL.Entities.Order dalOrder = new Shop.DAL.Entities.Order();
             int total = 0;
             dalOrder.OrderItems = new List<Shop.DAL.Entities.OrderItem>();
-
+            Dictionary<int, Shop.DAL.Entities.Product> products = new Dictionary<int, Shop.DAL.Entities.Product>();
 
             foreach (var orderItem in orderItemAdds)
             {
-                // check item in product repo
-                // 
-                total += ;
+                try
+                {
+                    products.Add(orderItem.ProductId, unitOfWork.ProductRepository.GetByID(orderItem.ProductId));
+                }catch
+                {
+                    orderItemAdds = orderItemAdds.Where(t => t.ProductId != orderItem.ProductId);
+                }
+            }
 
+            foreach (var orderItem in orderItemAdds)
+            {
+                var product = products[orderItem.ProductId];
+                total += product.Price * orderItem.Quantity;
             }
 
             dalOrder.Total = total;
+            dalOrder.PurchaseDate = DateTime.Now;
+            unitOfWork.OrderRepository.Insert(dalOrder);
 
 
+            var orderId = dalOrder.Id;
+
+            foreach (var orderItem in orderItemAdds)
+            {
+                Shop.DAL.Entities.OrderItem oi = new Shop.DAL.Entities.OrderItem();
+                oi.Quantity = orderItem.Quantity;
+                oi.ProductId = orderItem.ProductId;
+                oi.OrderId = orderId;
+                oi.Price = products[orderItem.ProductId].Price;
+                
+                unitOfWork.OrderItemRepository.Insert(oi);
+            }
+            unitOfWork.Save();
+            return null ;
         }
     }
 }

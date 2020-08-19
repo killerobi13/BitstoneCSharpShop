@@ -38,7 +38,7 @@
             <td>
                 @item.Name
             </td>
-            <td>
+            <td class="price">
                 @item.SingleUnitPrice
             </td>
             <td class="qty">
@@ -54,11 +54,11 @@
                 <button onclick="deleteFromCart(@item.ProductId)">✖</button>
             </td>
         </tr>
-
         }
     </tbody>
 </table>
-
 <br />
-<button>Make order</button>
+<h2 id="totalPrice"></h2>
+<br />
+<button onclick="postOrder()">Make order</button>
 <script src="~/Scripts/cart.js"></script>

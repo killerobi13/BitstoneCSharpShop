@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+.disable {
+    pointer-events: none;
+    cursor: default;
+}

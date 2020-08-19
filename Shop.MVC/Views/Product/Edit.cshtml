@@ -1,53 +1,44 @@
-﻿@model Common.ViewModels.Product
+﻿@model Common.ViewModels.ProductEdit
 
 @{
     ViewBag.Title = "View";
 }
 
-<h2>View</h2>
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Product</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CategoryId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Category, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+<h2>Edit Product</h2>
+@{
+    var selectList = new SelectList(
+        Model.Categories, "Id", "Name");
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+@Html.ValidationSummary()
+
+<form action=@Url.Action("EditProduct","Product") method="post">
+
+    <input type="hidden" name="Id" value="@Model.Product.Id" />
+
+    <label>Name</label> <br />
+    <input type="text" name="Name" value="@Model.Product.Name" /><br />
+
+    <label>Price</label> <br />
+    <input type="text" name="Price" value="@Model.Product.Price" /><br />
+
+
+    <label>Category</label><br />
+
+    <select name="CategoryId" id="CategoryId">
+
+        @foreach (var t in selectList)
+        {
+            <option @if (t.Value == Model.Product.CategoryId.ToString()) { @: selected
+                    }
+                    value=@t.Value>
+                @t.Text
+            </option>
+        }
+
+    </select>
+
+
+    <br />
+    <button>Edit</button>
+</form>

@@ -14,6 +14,8 @@ namespace Shop.DAL.Entities
 
         public int Id { get; set; }
         public int Total { get; set; }
+
+        public DateTime? PurchaseDate { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

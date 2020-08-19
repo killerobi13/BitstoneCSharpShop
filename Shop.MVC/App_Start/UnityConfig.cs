@@ -52,15 +52,15 @@ namespace Shop.MVC
             container.RegisterType<IUnitOfWork, UnitOfWork>();
             container.RegisterType<IProductService, ProductService>();
             container.RegisterType<IOrderService, OrderService>();
-            container.RegisterType<IOrderItemService, OrderItemService>();
+           
             container.RegisterType<ICategoryService, CategoryService>();
 
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Product, Common.ViewModels.Product>()
                 .ForMember(d => d.Category, d => d.MapFrom(x =>x.Category.Name));
-                cfg.CreateMap<Common.ViewModels.Product, Shop.DAL.Entities.Product>();
                 cfg.CreateMap<Category, Common.ViewModels.Category>();
+                cfg.CreateMap<Common.ViewModels.Product,Product>().ForMember(d => d.Category, opt => opt.Ignore());
             });
 
             IMapper mapper = config.CreateMapper();

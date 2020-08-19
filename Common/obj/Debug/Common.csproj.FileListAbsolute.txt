@@ -7,3 +7,8 @@ C:\Users\user\source\repos\Shop\Common\obj\Debug\Common.csproj.CoreCompileInputs
 C:\Users\user\source\repos\Shop\Common\obj\Debug\Common.csproj.CopyComplete
 C:\Users\user\source\repos\Shop\Common\obj\Debug\Common.dll
 C:\Users\user\source\repos\Shop\Common\obj\Debug\Common.pdb
+C:\Users\user\source\repos\Shop\Common\bin\Debug\Common.dll.config
+C:\Users\user\source\repos\Shop\Common\bin\Debug\EntityFramework.dll
+C:\Users\user\source\repos\Shop\Common\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\user\source\repos\Shop\Common\bin\Debug\EntityFramework.xml
+C:\Users\user\source\repos\Shop\Common\bin\Debug\EntityFramework.SqlServer.xml

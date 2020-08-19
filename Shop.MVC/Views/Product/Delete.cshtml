@@ -37,12 +37,13 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+    
+    <form action='@Url.Action("DeleteProduct","Product")' method="post">
+        <input type="hidden" id="prod_id" name="id" value="@Model.Id">
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
+        <input type="submit" value="Delete" class="btn btn-default" />
+    </form><br />|
+    @Html.ActionLink("Back to List", "Index")
+      
+    
 </div>

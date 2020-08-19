@@ -1,4 +1,5 @@
-﻿using Common.ViewModels;
+﻿using Common.Extensions;
+using Common.ViewModels;
 using ServiceLayer.Services;
 using ServiceLayer.Services.Interfaces;
 using System;
@@ -28,6 +29,13 @@ namespace Shop.MVC.Controllers
             return View(productService.GetAll());
         }
 
+        [HttpPost]
+        public ActionResult Add(Product product)
+        {
+            productService.Insert(product);
+            return RedirectToAction("List");
+        }
+
         public ActionResult Details(int id)
         {
             return View(productService.GetById(id));
@@ -35,7 +43,36 @@ namespace Shop.MVC.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View(productService.GetById(id));
+            ProductEdit pe = new ProductEdit();
+            pe.Product = productService.GetById(id);
+            pe.Categories = categoryService.GetAll();
+            return View(pe);
+        }
+
+        [HttpPost]
+        public ActionResult EditProduct(Product p)
+        {
+            if(ModelState.IsValid)
+            {
+                try
+                {
+                    productService.Update(p);
+                    return RedirectToAction("List");
+                }
+                catch(DuplicateProductException duplicateProductException)
+                {
+                    ModelState.AddModelError("Name", duplicateProductException.Message);
+                }
+                
+
+            }
+
+            ProductEdit pe = new ProductEdit();
+            pe.Product = p;
+            pe.Categories = categoryService.GetAll();
+            return View("Edit",pe);
+        
+
         }
 
         public ActionResult Delete(int id)
@@ -43,9 +80,17 @@ namespace Shop.MVC.Controllers
             return View(productService.GetById(id));
         }
 
+        [HttpPost]
+        public ActionResult DeleteProduct(int id)
+        {
+            productService.Delete(id);
+            return RedirectToAction("List");
+        }
+
         public ActionResult Insert()
         {
-            return View(categoryService.GetAll());
+            var categories = categoryService.GetAll();
+            return View(categories);
         }
 
 

@@ -21,7 +21,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
-            <th></th>
+            <th>Operations</th>
+            <th>Cart</th>
         </tr>
     </thead>
     <tbody>
@@ -38,10 +39,12 @@
                     @Html.DisplayFor(modelItem => item.Category)
                 </td>
                 <td>
-                    <button onclick="addInCart(@item.Id)">Add to cart</button>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+                <td>
+                    <button onclick="addInCart(@item.Id)">Add to cart</button>
                 </td>
             </tr>
         }
