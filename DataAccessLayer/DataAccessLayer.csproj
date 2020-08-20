@@ -88,8 +88,6 @@
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderItem.cs" />
     <Compile Include="Entities\Product.cs" />
-    <Compile Include="Identity\ApplicationSignInManager.cs" />
-    <Compile Include="Identity\ApplicationUserManager.cs" />
     <Compile Include="Migrations\202008181024371_Initial.cs" />
     <Compile Include="Migrations\202008181024371_Initial.designer.cs">
       <DependentUpon>202008181024371_Initial.cs</DependentUpon>
@@ -109,6 +107,10 @@
     <Compile Include="Migrations\202008191419159_AddedOrderId1.cs" />
     <Compile Include="Migrations\202008191419159_AddedOrderId1.designer.cs">
       <DependentUpon>202008191419159_AddedOrderId1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008201205123_NewStuff.cs" />
+    <Compile Include="Migrations\202008201205123_NewStuff.designer.cs">
+      <DependentUpon>202008201205123_NewStuff.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008191419159_AddedOrderId1.resx">
       <DependentUpon>202008191419159_AddedOrderId1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008201205123_NewStuff.resx">
+      <DependentUpon>202008201205123_NewStuff.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

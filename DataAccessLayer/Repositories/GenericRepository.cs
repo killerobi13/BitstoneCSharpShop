@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
+
 namespace Shop.Repository
 {
     public abstract class GenericRepository<TEntity> where TEntity : class

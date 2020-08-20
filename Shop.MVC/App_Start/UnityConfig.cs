@@ -65,8 +65,6 @@ namespace Shop.MVC
 
             IMapper mapper = config.CreateMapper();
             container.RegisterInstance(mapper);
-
-
         }
     }
 }

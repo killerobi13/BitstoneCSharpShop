@@ -6,6 +6,8 @@
 
 <h2>Login</h2>
 
+@Html.ValidationSummary()
+
 <form action=@Url.Action("LoginUser","User") method="post">
     <label>Username</label> <br />
     <input type="text" name="Username" /> <br />

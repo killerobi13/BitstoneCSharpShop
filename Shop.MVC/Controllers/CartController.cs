@@ -24,6 +24,7 @@ namespace Shop.MVC.Controllers
             this.categoryService = categoryService;
         }
 
+        [Authorize]
         [HttpGet]
         public ActionResult GetCart()
         {

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using DataAccessLayer.Identity;
+using System.Web.Configuration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Jwt;
+using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Shop.DAL;
 using Shop.MVC.Identity;
@@ -17,23 +20,33 @@ namespace Shop.MVC.App_Start
     {
         public void Configuration(IAppBuilder app)
         {
-            app.CreatePerOwinContext( ShopDbContext.Create );
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+            app.UseJwtBearerAuthentication(
+               new JwtBearerAuthenticationOptions
+               {
+                   TokenValidationParameters = new TokenValidationParameters()
+                   {
+                       ValidIssuer = "bitshop2021",
+                       ValidateLifetime = true,
+                   }
+               });
+        
+            var OAuthOptions = new OAuthAuthorizationServerOptions
+            {
+                TokenEndpointPath = new PathString("/token"),
+                Provider = new OAuthAuthorizationServerProvider(),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(365),
+                // In production mode set AllowInsecureHttp = false
+                AllowInsecureHttp = true
+            };
 
+            // Enable the application to use bearer tokens to authenticate users
+            app.UseOAuthBearerTokens(OAuthOptions);
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/User/Login"),
-                Provider = new CookieAuthenticationProvider
-                {
-                    // Enables the application to validate the security stamp when the user logs in.
-                    // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, AppUser>(
-                                    validateInterval: TimeSpan.FromMinutes(30),
-                                    regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
-                }
+
             });
         }
     }

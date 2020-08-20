@@ -1,10 +1,10 @@
 ﻿using Common.ViewModels;
-using DataAccessLayer.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Shop.DAL;
+using Shop.MVC.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,32 +15,10 @@ using System.Web.Mvc;
 namespace Shop.MVC.Controllers
 {
     public class UserController : Controller
-    {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-        
-        public ApplicationSignInManager SignInManager
+    {  
+        public UserController()
         {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
-        }
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
         }
 
         [HttpPost]
@@ -48,7 +26,6 @@ namespace Shop.MVC.Controllers
         {
             var userStore = new UserStore<IdentityUser>(new ShopDbContext());
             var manager = new UserManager<IdentityUser>(userStore);
-
          
             var user = new IdentityUser() { UserName= register.Username };
             IdentityResult result = manager.Create(user, register.Password);
@@ -76,12 +53,20 @@ namespace Shop.MVC.Controllers
         [HttpPost]
         public ActionResult LoginUser(Register loginModel)
         {
-            var result = SignInManager.PasswordSignIn(loginModel.Username, loginModel.Password, true, false);
+            var userStore = new UserStore<IdentityUser>(new ShopDbContext());
+            var manager = new UserManager<IdentityUser>(userStore);
 
-            if (result == SignInStatus.Success)
-                return Content("good");
+            var signInManager = new SignInManager<IdentityUser,string>(manager, this.Request.GetOwinContext().Authentication);
+
+            if (signInManager.PasswordSignIn(loginModel.Username, loginModel.Password, false, false) == SignInStatus.Success)
+            {
+                return RedirectToAction("Index", "Product");
+            }
             else
-                return Content("false");
+            {
+                ModelState.AddModelError("invalidCredentials", "The credentials you have entered are invalid");
+                return View("Login");
+            }
         }
 
         [HttpGet]
