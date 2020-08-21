@@ -63,8 +63,7 @@ namespace Shop.MVC.Controllers
                 {
                     ModelState.AddModelError("Name", duplicateProductException.Message);
                 }
-                
-
+               
             }
 
             ProductEdit pe = new ProductEdit();
@@ -72,7 +71,6 @@ namespace Shop.MVC.Controllers
             pe.Categories = categoryService.GetAll();
             return View("Edit",pe);
         
-
         }
 
         public ActionResult Delete(int id)
@@ -92,7 +90,5 @@ namespace Shop.MVC.Controllers
             var categories = categoryService.GetAll();
             return View(categories);
         }
-
-
     }
 }

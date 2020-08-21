@@ -175,3 +175,6 @@ C:\Users\user\source\repos\Shop\Shop.MVC\bin\Microsoft.Owin.Security.Jwt.xml
 C:\Users\user\source\repos\Shop\Shop.MVC\bin\System.IdentityModel.Tokens.Jwt.xml
 C:\Users\user\source\repos\Shop\Shop.MVC\bin\System.Web.Http.Owin.dll
 C:\Users\user\source\repos\Shop\Shop.MVC\bin\System.Web.Http.Owin.xml
+C:\Users\user\source\repos\Shop\Shop.MVC\bin\Microsoft.AspNet.WebApi.Versioning.dll
+C:\Users\user\source\repos\Shop\Shop.MVC\bin\Microsoft.AspNet.WebApi.Versioning.pdb
+C:\Users\user\source\repos\Shop\Shop.MVC\bin\Microsoft.AspNet.WebApi.Versioning.xml

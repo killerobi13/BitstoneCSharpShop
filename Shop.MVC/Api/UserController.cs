@@ -14,7 +14,6 @@ using System.Web.Http;
 
 namespace Shop.MVC.Api
 {
-    [Route("token")]
     public class UserController : ApiController
     {
         private ITokenGenerationService generationService;

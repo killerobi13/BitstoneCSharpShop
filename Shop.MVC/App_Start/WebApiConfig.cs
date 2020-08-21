@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Common.ViewModels;
 using Microsoft.Owin.Security.OAuth;
+using Microsoft.Web.Http.Routing;
+using Microsoft.Web.Http.Versioning;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using ServiceLayer.Services;
@@ -23,6 +25,7 @@ namespace Shop.MVC
         {
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
+            config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             // Web API routes
@@ -56,13 +59,15 @@ namespace Shop.MVC
                 TypeNameHandling = TypeNameHandling.Objects,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
+            config.AddApiVersioning(t => t.ReportApiVersions = true);
 
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
-
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                routeTemplate: "api/{apiVersion}/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional },
+                constraints: new { apiVersion = new ApiVersionRouteConstraint() }
+
             );
         }
     }

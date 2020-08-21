@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
 using Microsoft.AspNet.Identity;
@@ -9,6 +10,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using Microsoft.Owin.Security;
 using Shop.DAL;
 using Shop.MVC.Identity;
 
@@ -21,32 +23,24 @@ namespace Shop.MVC.App_Start
         public void Configuration(IAppBuilder app)
         {
             app.UseJwtBearerAuthentication(
-               new JwtBearerAuthenticationOptions
-               {
-                   TokenValidationParameters = new TokenValidationParameters()
-                   {
-                       ValidIssuer = "bitshop2021",
-                       ValidateLifetime = true,
-                   }
-               });
-        
-            var OAuthOptions = new OAuthAuthorizationServerOptions
-            {
-                TokenEndpointPath = new PathString("/token"),
-                Provider = new OAuthAuthorizationServerProvider(),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(365),
-                // In production mode set AllowInsecureHttp = false
-                AllowInsecureHttp = true
-            };
-
-            // Enable the application to use bearer tokens to authenticate users
-            app.UseOAuthBearerTokens(OAuthOptions);
+                new JwtBearerAuthenticationOptions
+                {
+                    AuthenticationMode = Microsoft.Owin.Security.AuthenticationMode.Active,
+                    TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = "http://mysite.com", //some string, normally web url,  
+                        ValidAudience = "http://mysite.com",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_secret_key_12345"))
+                    }
+                });
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/User/Login"),
-
             });
         }
     }
