@@ -25,6 +25,12 @@ namespace Shop.MVC.Controllers
             return PartialView(order);
         }
 
+        public ActionResult GetAllOrdersOfCurrentUser()
+        {
+            var orders = orderService.GetAllOrdersOfUser(User.Identity.GetUserId());
+            return View(orders);
+        }
+
         public ActionResult Display(int id)
         {
             return View();

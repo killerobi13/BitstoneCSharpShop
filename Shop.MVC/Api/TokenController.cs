@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Web.Http;
 using ServiceLayer.Services.Interfaces;
 using Shop.DAL;
+using Shop.MVC.App_Start;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,16 +23,39 @@ namespace Shop.MVC.Api
         {
             generationService = tokenGenerationService;
         }
+
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.Current.Request.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.Current.Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
         [HttpGet]
         [ApiVersion("1.0")]
         public IHttpActionResult GetToken(string Username,string Password)
-        {
-            var userStore = new UserStore<IdentityUser>(new ShopDbContext());
-            var manager = new UserManager<IdentityUser>(userStore);
-
-            var signInManager = new SignInManager<IdentityUser, string>(manager, HttpContext.Current.Request.GetOwinContext().Authentication);
-
-            if (signInManager.PasswordSignIn(Username, Password, false, false) == SignInStatus.Success)
+        { 
+            if (SignInManager.PasswordSignIn(Username, Password, false, false) == SignInStatus.Success)
             {
                 return Ok(
                     generationService.GenerateToken(Username, 120)

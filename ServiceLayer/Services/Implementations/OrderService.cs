@@ -21,6 +21,12 @@ namespace ServiceLayer.Services.Implementations
             this.mapper = mapper;
         }
 
+        public IEnumerable<Common.ViewModels.Order> GetAllOrdersOfUser(string userId)
+        {            
+            return mapper.Map<IEnumerable<Shop.DAL.Entities.Order>, IEnumerable<Common.ViewModels.Order>>
+                (unitOfWork.OrderRepository.Get(t => t.UserId == userId, includeProperties: "OrderItems"));
+        }
+
         Common.ViewModels.Order IOrderService.Insert(IEnumerable<OrderItemAdd> orderItemAdds, string userId)
         {
             Shop.DAL.Entities.Order dalOrder = new Shop.DAL.Entities.Order();

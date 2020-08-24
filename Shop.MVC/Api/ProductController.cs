@@ -9,6 +9,10 @@ using System.Web.Helpers;
 using System.Web.Http;
 using System.Security.Claims;
 using Microsoft.Web.Http;
+using Shop.MVC.Extensions;
+using Common.ViewModels;
+using Common.Extensions;
+using Shop.MVC.ExceptionFilters;
 
 namespace Shop.MVC.Api
 {
@@ -25,62 +29,77 @@ namespace Shop.MVC.Api
         [Authorize]
         [HttpGet]
         [ApiVersion("1.0")]
-        public IHttpActionResult GetAllProducts()
+        public object GetAllProducts()
         {
-            return Ok(productService.GetAll());
+            return new GenericResponse<IEnumerable<Product>>(productService.GetAll());
         }
-        [Authorize]
+        [Auth]
         [HttpGet]
         [ApiVersion("1.0")]
-        public IHttpActionResult GetProductById(int id)
+        public object GetProductById(int id)
         {
-            return Ok(productService.GetById(id));
+            var product = productService.GetById(id);
+            if (product != null)
+            {
+                return new GenericResponse<Product>(product);
+            }
+            else
+            {
+                return new GenericResponse<Product>("Product not found");
+            }
         }
         [Authorize]
         [HttpPost]
         [ApiVersion("1.0")]
-        public IHttpActionResult InsertProduct(Common.ViewModels.Product product)
+        public object InsertProduct(Common.ViewModels.Product product)
         {
             if (ModelState.IsValid)
             {
-                productService.Insert(product); 
-                return Ok();
+                try
+                {
+                    var insertedProduct = productService.Insert(product);
+                    return new GenericResponse<Product>(insertedProduct);
+                }
+                catch (DuplicateProductException dup)
+                {
+                    return new GenericResponse<Product>(dup.Message);
+                }
             }
             else
             {
-                return BadRequest();
+                return new GenericResponse<Product>(ModelState.GenerateValidations());
             }
         }
         [Authorize]
         [HttpDelete]
         [ApiVersion("1.0")]
-        public IHttpActionResult DeleteProduct(int id)
+        public object DeleteProduct(int id)
         {
             if(productService.GetById(id) !=null)
             {
-                return NotFound();
+                productService.Delete(id);
+                return new GenericResponse<Product>();
             }
             else
             {
-                productService.Delete(id);
-                return Ok();
+                return new GenericResponse<Product>("Product not found");
             }
-            
+
         }
 
         [Authorize]
         [HttpPut]
         [ApiVersion("1.0")]
-        public IHttpActionResult UpdateProduct(Common.ViewModels.Product product)
+        public object UpdateProduct(Common.ViewModels.Product product)
         {
             if(ModelState.IsValid)
-            {
+            {   
                 productService.Update(product);
-                return BadRequest();
+                return new GenericResponse<Product>(product);
             }
             else
             {
-                return Ok();
+                return new GenericResponse<string>(ModelState.GenerateValidations());
             }
             
         }

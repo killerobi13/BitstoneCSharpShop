@@ -8,6 +8,7 @@ using Newtonsoft.Json.Serialization;
 using ServiceLayer.Services;
 using ServiceLayer.Services.Implementations;
 using ServiceLayer.Services.Interfaces;
+using Shop.MVC.ExceptionFilters;
 using Shop.UnitsOfWork;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,8 @@ namespace Shop.MVC
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-            
+            config.Filters.Add(new InternalServerExceptionFilter());
+
             //configure unity for web api
             var container = new UnityContainer();
 
@@ -44,7 +46,7 @@ namespace Shop.MVC
                 cfg.CreateMap<Shop.DAL.Entities.Product, Common.ViewModels.Product>()
                 .ForMember(d => d.Category, d => d.MapFrom(x => x.Category.Name));
                 cfg.CreateMap<Category, Common.ViewModels.Category>();
-                cfg.CreateMap<Common.ViewModels.Product, Product>().ForMember(d => d.Category, opt => opt.Ignore());
+                cfg.CreateMap<Common.ViewModels.Product, Shop.DAL.Entities.Product>().ForMember(d => d.Category, opt => opt.Ignore());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -52,13 +54,13 @@ namespace Shop.MVC
             GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
 
             //configure json
-            var formatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
-            formatter.SerializerSettings = new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Objects,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
+            //var formatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            //formatter.SerializerSettings = new JsonSerializerSettings
+            //{
+            //    Formatting = Formatting.Indented,
+            //    TypeNameHandling = TypeNameHandling.Objects,
+            //    ContractResolver = new CamelCasePropertyNamesContractResolver()
+            //};
             config.AddApiVersioning(t => t.ReportApiVersions = true);
 
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));

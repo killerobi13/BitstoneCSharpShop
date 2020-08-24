@@ -35,7 +35,14 @@ namespace Shop.MVC.Controllers
         {
             if(ModelState.IsValid)
             {
-                productService.Insert(product);
+                try
+                {
+                    productService.Insert(product);
+                }
+                catch (DuplicateProductException duplicateProductException)
+                {
+                    ModelState.AddModelError("Name", duplicateProductException.Message);
+                }
                 return RedirectToAction("List");
             }
             else
@@ -65,22 +72,18 @@ namespace Shop.MVC.Controllers
         {
             if(ModelState.IsValid)
             {
-                try
-                {
-                    productService.Update(p);
-                    return RedirectToAction("List");
-                }
-                catch(DuplicateProductException duplicateProductException)
-                {
-                    ModelState.AddModelError("Name", duplicateProductException.Message);
-                }
-               
+                productService.Update(p);
+                return RedirectToAction("List");
+            }
+            else
+            {
+                ProductEdit pe = new ProductEdit();
+                pe.Product = p;
+                pe.Categories = categoryService.GetAll();
+                return View("Edit", pe);
+
             }
 
-            ProductEdit pe = new ProductEdit();
-            pe.Product = p;
-            pe.Categories = categoryService.GetAll();
-            return View("Edit",pe);
         
         }
         [Authorize(Roles = "Admin")]

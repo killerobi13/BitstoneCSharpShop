@@ -10,5 +10,6 @@ namespace ServiceLayer.Services.Interfaces
     public interface IOrderService
     {
         Common.ViewModels.Order Insert(IEnumerable<OrderItemAdd> orderItemAdds, string userId);
+        IEnumerable<Common.ViewModels.Order> GetAllOrdersOfUser(string userId);
     }
 }

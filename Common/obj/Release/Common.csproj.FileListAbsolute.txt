@@ -1,0 +1,16 @@
+C:\Users\user\source\repos\Shop\Common\bin\Release\Common.dll.config
+C:\Users\user\source\repos\Shop\Common\bin\Release\Common.dll
+C:\Users\user\source\repos\Shop\Common\bin\Release\Common.pdb
+C:\Users\user\source\repos\Shop\Common\bin\Release\AutoMapper.dll
+C:\Users\user\source\repos\Shop\Common\bin\Release\EntityFramework.dll
+C:\Users\user\source\repos\Shop\Common\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\user\source\repos\Shop\Common\bin\Release\Newtonsoft.Json.dll
+C:\Users\user\source\repos\Shop\Common\bin\Release\AutoMapper.xml
+C:\Users\user\source\repos\Shop\Common\bin\Release\EntityFramework.xml
+C:\Users\user\source\repos\Shop\Common\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\user\source\repos\Shop\Common\bin\Release\Newtonsoft.Json.xml
+C:\Users\user\source\repos\Shop\Common\obj\Release\Common.csprojAssemblyReference.cache
+C:\Users\user\source\repos\Shop\Common\obj\Release\Common.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\Shop\Common\obj\Release\Common.csproj.CopyComplete
+C:\Users\user\source\repos\Shop\Common\obj\Release\Common.dll
+C:\Users\user\source\repos\Shop\Common\obj\Release\Common.pdb

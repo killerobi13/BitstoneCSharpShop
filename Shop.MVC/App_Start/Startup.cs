@@ -22,6 +22,10 @@ namespace Shop.MVC.App_Start
     {
         public void Configuration(IAppBuilder app)
         {
+            app.CreatePerOwinContext(ShopDbContext.Create);
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+
             app.UseJwtBearerAuthentication(
                 new JwtBearerAuthenticationOptions
                 {

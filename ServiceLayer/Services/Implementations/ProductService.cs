@@ -38,11 +38,18 @@ namespace ServiceLayer.Services.Implementations
        
         public Product Insert(Common.ViewModels.Product product)
         {
-            Shop.DAL.Entities.Product dalProduct = mapper.Map<Common.ViewModels.Product, Shop.DAL.Entities.Product>(product);
+            if (unitOfWork.ProductRepository.Get(q => q.Name == product.Name).Count() == 0)
+            {
+                Shop.DAL.Entities.Product dalProduct = mapper.Map<Common.ViewModels.Product, Shop.DAL.Entities.Product>(product);
  
             var retProduct = unitOfWork.ProductRepository.Insert(dalProduct);
             
             return mapper.Map<Shop.DAL.Entities.Product, Common.ViewModels.Product>(retProduct);
+
+            }else
+            {
+                throw new DuplicateProductException();
+            }
         }
 
         public Product Delete(int id)
@@ -54,15 +61,11 @@ namespace ServiceLayer.Services.Implementations
 
         public void Update(Common.ViewModels.Product product)
         {
-            if(unitOfWork.ProductRepository.Get(q=>q.Name==product.Name).Count()==0)
-            {
+
                 var dalProduct = mapper.Map<Common.ViewModels.Product, Shop.DAL.Entities.Product>(product);
                 unitOfWork.ProductRepository.Update(dalProduct);
                 unitOfWork.Save();
-            }else
-            {
-                throw new DuplicateProductException();
-            }
+  
 
         }
     }

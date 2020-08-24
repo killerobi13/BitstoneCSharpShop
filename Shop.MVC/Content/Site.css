@@ -28,3 +28,9 @@ textarea {
     pointer-events: none;
     cursor: default;
 }
+
+.order_item {
+    border: 2px solid black;
+    border-radius: 2px;
+    margin-bottom: 10px
+}

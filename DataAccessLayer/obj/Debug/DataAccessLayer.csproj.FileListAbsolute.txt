@@ -38,3 +38,4 @@ C:\Users\user\source\repos\Shop\DataAccessLayer\obj\Debug\DataAccessLayer.Migrat
 C:\Users\user\source\repos\Shop\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.NewStuff.resources
 C:\Users\user\source\repos\Shop\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.UserAddedToOrder.resources
 C:\Users\user\source\repos\Shop\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.SeedingRoles.resources
+C:\Users\user\source\repos\Shop\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.Identity1.resources

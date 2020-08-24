@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Common.ViewModels.Order>
+@{
+    ViewBag.Title = "Order History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Order History</h2>
+
+@foreach (var order in Model)
+{
+<div class="order_item">
+
+
+    <h5>Order Id: @order.Id </h5>
+    <br />
+    <h5>Order Total:@order.Total </h5>
+    <br />
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Quantity
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in order.OrderItems)
+            {
+                <tr>
+                    <td>
+                        @item.ProductName
+                    </td>
+                    <td>
+                        @item.Price
+                    </td>
+                    <td>
+                        @item.Quantity
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+</div>
+}

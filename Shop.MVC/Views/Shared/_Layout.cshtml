@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - BitShop </title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -24,11 +24,9 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Cart", "GetCart", "Cart")</li>
-                        <li style="color:red; margin-top:15px">
-                            Welcome,
-                            @User.Identity.Name
+                        <li>@Html.ActionLink("Order History", "GetAllOrdersOfCurrentUser", "Order")</li>
 
-                        </li>
+ 
 
                     }
                 </ul>
@@ -52,6 +50,16 @@
         </div>
     </div>
     <div class="container body-content">
+        @if (User.Identity.IsAuthenticated)
+        {
+        <b>
+            Logged in as,
+            @User.Identity.Name
+        </b>
+        }
+
+
+        <br />
         @RenderBody()
         <hr />
         <footer>

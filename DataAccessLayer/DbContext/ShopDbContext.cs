@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using Shop.DAL.Entities;
+using Shop.MVC.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,7 +9,7 @@ using System.Web;
 
 namespace Shop.DAL
 {
-    public class ShopDbContext : IdentityDbContext<IdentityUser>
+    public class ShopDbContext : IdentityDbContext<AppUser>
     {
         public ShopDbContext() : base("ShopContext")
         {

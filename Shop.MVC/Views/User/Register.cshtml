@@ -6,9 +6,15 @@
 <h2>Register</h2>
 
 <form action=@Url.Action("RegisterUser","User") method="post">
+    <label>First Name</label> <br />
+    <input type="text" name="FirstName" /> <br />
+    <label>Last Name</label> <br />
+    <input type="text" name="LastName" /> <br />
+    <label>Address</label> <br />
+    <input type="text" name="Address" /> <br />
     <label>Username</label> <br />
     <input type="text" name="Username" /> <br />
     <label>Password</label> <br />
-    <input type="text" name="Password" /> <br />
+    <input type="password" name="Password" /> <br />
     <button>Register</button>
 </form>

@@ -221,11 +221,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\OrderController.cs" />
     <Compile Include="Api\ProductController.cs" />
     <Compile Include="Api\TokenController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
@@ -235,6 +235,10 @@
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="ExceptionFilters\InternalServerErrorExceptionFilter.cs" />
+    <Compile Include="ExceptionFilters\MyErrorResponseProvider.cs" />
+    <Compile Include="ExceptionFilters\UnauthorizedFilter.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -280,10 +284,10 @@
     <Content Include="Views\Product\Edit.cshtml" />
     <Content Include="Views\Product\Insert.cshtml" />
     <Content Include="Views\Cart\GetCart.cshtml" />
-    <Content Include="Views\Product\View.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Order\Create.cshtml" />
+    <Content Include="Views\Order\GetAllOrdersOfCurrentUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
