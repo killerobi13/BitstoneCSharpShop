@@ -223,7 +223,7 @@
   <ItemGroup>
     <Compile Include="Api\OrderController.cs" />
     <Compile Include="Api\ProductController.cs" />
-    <Compile Include="Api\UserController.cs" />
+    <Compile Include="Api\TokenController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -283,10 +283,10 @@
     <Content Include="Views\Product\View.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Order\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

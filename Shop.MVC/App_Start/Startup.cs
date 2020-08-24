@@ -31,7 +31,7 @@ namespace Shop.MVC.App_Start
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = "http://mysite.com", //some string, normally web url,  
+                        ValidIssuer = "http://mysite.com",  
                         ValidAudience = "http://mysite.com",
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my_secret_key_12345"))
                     }

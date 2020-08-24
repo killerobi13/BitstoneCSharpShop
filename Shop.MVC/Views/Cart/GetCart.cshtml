@@ -2,63 +2,65 @@
 @{
     ViewBag.Title = "AddCart";
 }
+<div id="order_details">
+    <h2>Cart</h2>
 
-<h2>Cart</h2>
+    <table id="cart_table" class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Unit Price
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Inc
+                </th>
+                <th>
+                    Sub
+                </th>
+                <th>
+                    Delete
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="cartRow_@item.ProductId">
+                    <td class="prods_id" style="display:none;">
+                        @item.ProductId
+                    </td>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td class="price">
+                        @item.SingleUnitPrice
+                    </td>
+                    <td class="qty">
+                        @item.Quantity
+                    </td>
+                    <td>
+                        <button onclick="addInCart(@item.ProductId)">+</button>
+                    </td>
+                    <td>
+                        <button onclick="subFromCart(@item.ProductId)">-</button>
+                    </td>
+                    <td>
+                        <button onclick="deleteFromCart(@item.ProductId)">✖</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <h2 id="totalPrice"></h2>
+    <br />
+    <button onclick="postOrder()">Make order</button>
 
-<table id="cart_table" class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Unit Price
-            </th>
-            <th>
-                Quantity
-            </th>
-            <th>
-                Inc
-            </th>
-            <th>
-                Sub
-            </th>
-            <th>
-                Delete
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr id="cartRow_@item.ProductId">
-            <td class="prods_id" style="display:none;">
-                @item.ProductId
-            </td>
-            <td>
-                @item.Name
-            </td>
-            <td class="price">
-                @item.SingleUnitPrice
-            </td>
-            <td class="qty">
-                @item.Quantity
-            </td>
-            <td>
-                <button onclick="addInCart(@item.ProductId)">+</button>
-            </td>
-            <td>
-                <button onclick="subFromCart(@item.ProductId)">-</button>
-            </td>
-            <td>
-                <button onclick="deleteFromCart(@item.ProductId)">✖</button>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
-<br />
-<h2 id="totalPrice"></h2>
-<br />
-<button onclick="postOrder()">Make order</button>
+</div>
 <script src="~/Scripts/cart.js"></script>

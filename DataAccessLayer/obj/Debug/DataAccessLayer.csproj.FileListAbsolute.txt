@@ -36,3 +36,5 @@ C:\Users\user\source\repos\Shop\DataAccessLayer\obj\Debug\DataAccessLayer.Migrat
 C:\Users\user\source\repos\Shop\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.AddedOrderId.resources
 C:\Users\user\source\repos\Shop\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.AddedOrderId1.resources
 C:\Users\user\source\repos\Shop\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.NewStuff.resources
+C:\Users\user\source\repos\Shop\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.UserAddedToOrder.resources
+C:\Users\user\source\repos\Shop\DataAccessLayer\obj\Debug\DataAccessLayer.Migrations.SeedingRoles.resources

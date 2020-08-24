@@ -1,0 +1,46 @@
+﻿@model Common.ViewModels.Order
+
+
+<h2>Order Details</h2>
+
+<h4> Order id : @Model.Id</h4>
+<h4> Total amount: @Model.Total</h4>
+
+
+<table id="order_table" class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Product Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Quantity
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderItems)
+        {
+        <tr>
+            <td>
+                @item.ProductId
+            </td>
+            <td>
+                @item.ProductName
+            </td>
+            <td>
+                @item.Price
+            </td>
+            <td>
+                @item.Quantity
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

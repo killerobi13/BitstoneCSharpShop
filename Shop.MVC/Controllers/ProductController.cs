@@ -29,17 +29,27 @@ namespace Shop.MVC.Controllers
             return View(productService.GetAll());
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPost]
         public ActionResult Add(Product product)
         {
-            productService.Insert(product);
-            return RedirectToAction("List");
-        }
+            if(ModelState.IsValid)
+            {
+                productService.Insert(product);
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return RedirectToAction("Insert");
+            }
 
+        }
+        [Authorize]
         public ActionResult Details(int id)
         {
             return View(productService.GetById(id));
         }
+        [Authorize(Roles = "Admin")]
 
         public ActionResult Edit(int id)
         {
@@ -48,6 +58,7 @@ namespace Shop.MVC.Controllers
             pe.Categories = categoryService.GetAll();
             return View(pe);
         }
+        [Authorize(Roles = "Admin")]
 
         [HttpPost]
         public ActionResult EditProduct(Product p)
@@ -72,19 +83,20 @@ namespace Shop.MVC.Controllers
             return View("Edit",pe);
         
         }
+        [Authorize(Roles = "Admin")]
 
         public ActionResult Delete(int id)
         {
             return View(productService.GetById(id));
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult DeleteProduct(int id)
         {
             productService.Delete(id);
             return RedirectToAction("List");
         }
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Insert()
         {
             var categories = categoryService.GetAll();

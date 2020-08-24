@@ -1,4 +1,5 @@
 ﻿using Common.ViewModels;
+using Microsoft.AspNet.Identity;
 using ServiceLayer.Services;
 using ServiceLayer.Services.Interfaces;
 using System;
@@ -17,10 +18,11 @@ namespace Shop.MVC.Controllers
         {
             this.orderService = orderService;
         }
+        [HttpPost]
         public ActionResult Create(IEnumerable<OrderItemAdd> orderItemAdds)
         {
-            orderService.Insert(orderItemAdds);
-            return Json(new { error=false});
+            var order = orderService.Insert(orderItemAdds,User.Identity.GetUserId());
+            return PartialView(order);
         }
 
         public ActionResult Display(int id)

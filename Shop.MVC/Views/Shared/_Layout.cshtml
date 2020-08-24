@@ -21,16 +21,31 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Products", "Index", "Product")</li>
-                    <li>@Html.ActionLink("Cart", "GetCart", "Cart")</li>          
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Cart", "GetCart", "Cart")</li>
+                        <li style="color:red; margin-top:15px">
+                            Welcome,
+                            @User.Identity.Name
+
+                        </li>
+
+                    }
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    @if (User.Identity.IsAuthenticated)
+                    @if (!User.Identity.IsAuthenticated)
                     {
-                        <li style="color:red; margin-top:15px;float:right">
-                            Welcome,
-                            @User.Identity.Name
+                        <li style="color:red;float:right">
+                            <a href="@Url.Action("Login", "User")">Login</a>
                         </li>
+                        <li style="color:red;float:right">
+                            <a href="@Url.Action("Register", "User")">Register</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li style="color:red;float:right">@Html.ActionLink("Logout", "Logout", "User") </li>
                     }
                 </ul>
             </div>

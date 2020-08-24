@@ -2,15 +2,12 @@
     var quantities = document.getElementsByClassName("qty");
     var productIds = document.getElementsByClassName("prods_id");
 
-
     for (var i = 0; i < quantities.length; i++) {
         if (productIds[i].innerHTML == response.prod_id) {
             quantities[i].innerHTML = response.quantity;
         }
     }
 }
-
-
 
 function addInCart(id) {
     $.ajax({
@@ -68,10 +65,9 @@ function postOrder() {
         type: "POST",
         url: '/Order/Create',
         contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
         data: orderItemAdds ,
         success: function (response) {
-            alert("good");
+            $('#order_details').html(response);
         }
     });
 }
@@ -90,4 +86,4 @@ function calculateTotal() {
 }
 
 
-    calculateTotal();
+calculateTotal();

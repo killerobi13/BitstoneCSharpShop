@@ -1,5 +1,7 @@
 ﻿namespace DataAccessLayer.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Shop.DAL.Entities;
     using System;
     using System.Collections.Generic;
@@ -22,7 +24,7 @@
             new Category(){ Id=1,Name="Books"},
             new Category(){ Id=2,Name="Toys"}
             };
-            categories.ForEach(s => context.Categories.Add(s));
+            categories.ForEach(s => context.Categories.AddOrUpdate(s));
             context.SaveChanges();
             var products = new List<Product>
             {
@@ -34,7 +36,7 @@
                 new Product(){ Id=2,//Description="A wonderful product",
                  Name="The book of books",Category=categories[1], Price = 40 }
             };
-            products.ForEach(s => context.Products.Add(s));
+            products.ForEach(s => context.Products.AddOrUpdate(s));
             context.SaveChanges();
 
             var orderItems = new List<OrderItem>()
@@ -43,7 +45,7 @@
                 new OrderItem() { Id=2, Price=30, Product=products[2], Quantity=6},
                 new OrderItem() { Id=3, Price=15, Product=products[0], Quantity=5}
             };
-            orderItems.ForEach(s => context.OrderItems.Add(s));
+            orderItems.ForEach(s => context.OrderItems.AddOrUpdate(s));
             context.SaveChanges();
 
             var orders = new List<Order>()
@@ -52,9 +54,15 @@
                 new Order() { Id=2,Total=150, OrderItems = orderItems.Skip(2).Take(1).ToList() },
                 new Order() { Id=3,Total=240, OrderItems = null },
             };
-            orders.ForEach(s => context.Orders.Add(s));
+            orders.ForEach(s => context.Orders.AddOrUpdate(s));
 
             context.SaveChanges();
+
+            RoleManager<IdentityRole> roleManager = new RoleManager<IdentityRole>(
+                  new RoleStore<IdentityRole>(context));
+            roleManager.Create(new IdentityRole("User"));
+            roleManager.Create(new IdentityRole("Admin"));
+
             base.Seed(context);
         }
     }

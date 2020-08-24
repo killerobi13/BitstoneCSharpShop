@@ -10,6 +10,8 @@
             Model, "Id", "Name");
     }
 
+@Html.ValidationSummary()
+
 <form action=@Url.Action("Add","Product") method="post">
     <label for="prod_name">Name:</label><br>
     <input type="text" id="prod_name" name="Name"><br>

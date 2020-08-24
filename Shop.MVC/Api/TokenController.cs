@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Web.Http;
 using ServiceLayer.Services.Interfaces;
 using Shop.DAL;
 using System;
@@ -14,14 +15,15 @@ using System.Web.Http;
 
 namespace Shop.MVC.Api
 {
-    public class UserController : ApiController
+    public class TokenController : ApiController
     {
         private ITokenGenerationService generationService;
-        public UserController(ITokenGenerationService tokenGenerationService)
+        public TokenController(ITokenGenerationService tokenGenerationService)
         {
             generationService = tokenGenerationService;
         }
         [HttpGet]
+        [ApiVersion("1.0")]
         public IHttpActionResult GetToken(string Username,string Password)
         {
             var userStore = new UserStore<IdentityUser>(new ShopDbContext());

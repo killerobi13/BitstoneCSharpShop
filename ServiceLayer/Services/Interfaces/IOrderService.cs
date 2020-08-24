@@ -9,6 +9,6 @@ namespace ServiceLayer.Services.Interfaces
 {
     public interface IOrderService
     {
-        Common.ViewModels.Order Insert(IEnumerable<OrderItemAdd> orderItemAdds);
+        Common.ViewModels.Order Insert(IEnumerable<OrderItemAdd> orderItemAdds, string userId);
     }
 }

@@ -67,6 +67,7 @@
     <Compile Include="ViewModels\Product.cs" />
     <Compile Include="ViewModels\ProductEdit.cs" />
     <Compile Include="ViewModels\ProductInsert.cs" />
+    <Compile Include="ViewModels\Login.cs" />
     <Compile Include="ViewModels\Register.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -21,7 +21,7 @@ namespace ServiceLayer.Services.Implementations
             this.mapper = mapper;
         }
 
-        Common.ViewModels.Order IOrderService.Insert(IEnumerable<OrderItemAdd> orderItemAdds)
+        Common.ViewModels.Order IOrderService.Insert(IEnumerable<OrderItemAdd> orderItemAdds, string userId)
         {
             Shop.DAL.Entities.Order dalOrder = new Shop.DAL.Entities.Order();
             int total = 0;
@@ -47,8 +47,7 @@ namespace ServiceLayer.Services.Implementations
 
             dalOrder.Total = total;
             dalOrder.PurchaseDate = DateTime.Now;
-            unitOfWork.OrderRepository.Insert(dalOrder);
-
+            dalOrder.UserId = userId;
 
             var orderId = dalOrder.Id;
 
@@ -59,11 +58,12 @@ namespace ServiceLayer.Services.Implementations
                 oi.ProductId = orderItem.ProductId;
                 oi.OrderId = orderId;
                 oi.Price = products[orderItem.ProductId].Price;
-                
-                unitOfWork.OrderItemRepository.Insert(oi);
+                dalOrder.OrderItems.Add(oi);
+                //unitOfWork.OrderItemRepository.Insert(oi);
             }
+            unitOfWork.OrderRepository.Insert(dalOrder);
             unitOfWork.Save();
-            return null ;
+            return mapper.Map<Shop.DAL.Entities.Order, Common.ViewModels.Order>(dalOrder);
         }
     }
 }
