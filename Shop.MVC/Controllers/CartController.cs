@@ -15,31 +15,38 @@ namespace Shop.MVC.Controllers
 {
     public class CartController : Controller
     {
+        private const string CART_KEY = "CART_PRODUCTS";
         private IProductService productService;
-        private ICategoryService categoryService;
 
-        public CartController(IProductService productService, ICategoryService categoryService)
+
+        public CartController(IProductService productService)
         {
             this.productService = productService;
-            this.categoryService = categoryService;
         }
 
         [Authorize]
         [HttpGet]
         public ActionResult GetCart()
         {
-            List<CartItem> cartItems = new List<CartItem>();
-            foreach(var t in Session.Keys)
+            if (Session[CART_KEY] == null)
             {
-                int i = Int32.Parse(t.ToString());
-                var product = productService.GetById(i);
+                Session[CART_KEY] = new List<OrderItemAdd>();
+            }
+
+            var cart = (List<OrderItemAdd>)Session[CART_KEY];
+            List<CartItem> cartItems = new List<CartItem>();
+
+            foreach(var existingCartItem in cart)
+            {
+
+                var product = productService.GetById(existingCartItem.ProductId);
 
                 if (product != null)
                 {
                     CartItem cartItem = new CartItem();
                     cartItem.Name = product.Name;
                     cartItem.SingleUnitPrice = product.Price;
-                    cartItem.Quantity = (int)Session[t.ToString()];
+                    cartItem.Quantity = existingCartItem.Quantity;
                     cartItem.ProductId = product.Id;
                     cartItems.Add(cartItem);
                 }
@@ -51,49 +58,58 @@ namespace Shop.MVC.Controllers
         [HttpPost]
         public ActionResult AddProduct(int id)
         {
-            string index = id.ToString();
-            //add the product id and product default quantity
-            if (Session[index] == null)
+            if (Session[CART_KEY] == null)
             {
-                Session.Add(index, 1);
+                Session[CART_KEY] = new List<OrderItemAdd>();
+            }
+
+            var cart = (List<OrderItemAdd>)Session[CART_KEY];
+
+            if (cart.Any(t=>t.ProductId==id))
+            {
+                var orderItemAdd = cart.FirstOrDefault(t => t.ProductId == id);
+                orderItemAdd.Quantity++;
             }
             else
             {
-                if((int)Session[index] <=99)
-                Session[index] = ((int)Session[index]) + 1;
+                cart.Add(new OrderItemAdd() { ProductId = id, Quantity = 1 });
             }
-            return Json(new { prod_id = id, quantity = Session[index] },JsonRequestBehavior.AllowGet);
+
+            return Json(new { prod_id = id, quantity = cart.First(t=>t.ProductId==id).Quantity });
         }
         [HttpPost]
         public ActionResult SubProduct(int id)
         {
-            string index = id.ToString();
+            var cart = (List<OrderItemAdd>)Session[CART_KEY];
 
-            if (Session[index] == null)
+            if (cart.FirstOrDefault(t => t.ProductId == id) is null)
             {
-                return Json(new {error=true }, JsonRequestBehavior.AllowGet);
+                return Json(new {error=true });
             }
             else
             {
-                if ((int)Session[index] > 1)
-                    Session[index] = ((int)Session[index]) -1;
+                var orderItemAdd = cart.FirstOrDefault(t => t.ProductId == id);
+
+
+                if (orderItemAdd.Quantity > 1)
+                    orderItemAdd.Quantity--;
             }
-            return Json(new { error = false, prod_id = id, quantity = Session[index] }, JsonRequestBehavior.AllowGet);
+            return Json(new { error = false, prod_id = id, quantity = cart.First(t => t.ProductId == id).Quantity });
         }
 
         [HttpPost]
         public ActionResult DeleteProduct(int id)
         {
-            string index = id.ToString();
+            var cart = (List<OrderItemAdd>)Session[CART_KEY];
 
-            if (Session[index] == null)
+            if (cart[id] == null)
             {
-                return Json(new { error = true }, JsonRequestBehavior.AllowGet);
+                return Json(new { error = true });
             }
             else
             {
-                Session.Remove(id.ToString());
-                return Json(new { error = false }, JsonRequestBehavior.AllowGet);
+                cart.RemoveAt(id);
+                return Json(new { error = false });
             }
         }
     }

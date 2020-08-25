@@ -26,6 +26,7 @@ namespace Shop.MVC.Api
             this.productService = productService;
             this.categoryService = categoryService;
         }
+
         [Authorize]
         [HttpGet]
         [ApiVersion("1.0")]
@@ -33,7 +34,8 @@ namespace Shop.MVC.Api
         {
             return new GenericResponse<IEnumerable<Product>>(productService.GetAll());
         }
-        [Auth]
+
+        [Authorize]
         [HttpGet]
         [ApiVersion("1.0")]
         public object GetProductById(int id)
@@ -48,6 +50,7 @@ namespace Shop.MVC.Api
                 return new GenericResponse<Product>("Product not found");
             }
         }
+
         [Authorize]
         [HttpPost]
         [ApiVersion("1.0")]
