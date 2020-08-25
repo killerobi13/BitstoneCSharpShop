@@ -23,50 +23,40 @@ namespace ServiceLayer.Services.Implementations
         public IEnumerable<Product> GetAll()
         {
             var products = unitOfWork.ProductRepository.Get();
-
             return mapper.Map<IEnumerable<Shop.DAL.Entities.Product>, IEnumerable<Common.ViewModels.Product>>(products);
         }
 
         public Product GetById(int id)
         {
-            var product = unitOfWork.ProductRepository.Get(filter: q=> q.Id==id, includeProperties: "Category" );
-            if(product.Count()>0)
-                return mapper.Map<Shop.DAL.Entities.Product, Common.ViewModels.Product>(product.ElementAt(0));
-            else
-                return null;
+            var product = unitOfWork.ProductRepository.GetFirstOrDefault(filter: q=> q.Id==id, includeProperties: "Category" );
+            return mapper.Map<Shop.DAL.Entities.Product, Common.ViewModels.Product>(product);
         }
        
-        public Product Insert(Common.ViewModels.Product product)
+        public int Insert(Common.ViewModels.Product product)
         {
-            if (unitOfWork.ProductRepository.Get(q => q.Name == product.Name).Count() == 0)
+            if (unitOfWork.ProductRepository.GetFirstOrDefault(q => q.Name == product.Name) is null)
             {
                 Shop.DAL.Entities.Product dalProduct = mapper.Map<Common.ViewModels.Product, Shop.DAL.Entities.Product>(product);
- 
-            var retProduct = unitOfWork.ProductRepository.Insert(dalProduct);
-            
-            return mapper.Map<Shop.DAL.Entities.Product, Common.ViewModels.Product>(retProduct);
-
-            }else
+                var retProduct = unitOfWork.ProductRepository.Insert(dalProduct);
+                return retProduct.Id;
+            }
+            else
             {
                 throw new DuplicateProductException();
             }
         }
 
-        public Product Delete(int id)
+        public void Delete(int id)
         {
-            var deletedProduct = mapper.Map<Shop.DAL.Entities.Product, Common.ViewModels.Product>(unitOfWork.ProductRepository.Delete(id));
+            unitOfWork.ProductRepository.Delete(id);
             unitOfWork.Save();
-            return deletedProduct;
         }
 
         public void Update(Common.ViewModels.Product product)
         {
-
-                var dalProduct = mapper.Map<Common.ViewModels.Product, Shop.DAL.Entities.Product>(product);
-                unitOfWork.ProductRepository.Update(dalProduct);
-                unitOfWork.Save();
-  
-
+            var dalProduct = mapper.Map<Common.ViewModels.Product, Shop.DAL.Entities.Product>(product);
+            unitOfWork.ProductRepository.Update(dalProduct);
+            unitOfWork.Save();
         }
     }
 }

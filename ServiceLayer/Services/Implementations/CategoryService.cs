@@ -20,10 +20,6 @@ namespace ServiceLayer.Services.Implementations
             this.mapper = mapper;
         }
 
-        public Common.ViewModels.Category Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         public IEnumerable<Common.ViewModels.Category> GetAll()
         {
@@ -32,19 +28,5 @@ namespace ServiceLayer.Services.Implementations
             return mapper.Map<IEnumerable<Shop.DAL.Entities.Category>, IEnumerable<Common.ViewModels.Category>>(categories);
         }
 
-        public Common.ViewModels.Category GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Category Insert(Category category)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Category category)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

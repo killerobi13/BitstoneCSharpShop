@@ -57,8 +57,8 @@ namespace Shop.MVC.Api
             {
                 try
                 {
-                    var insertedProduct = productService.Insert(product);
-                    return new GenericResponse<Product>(insertedProduct);
+                    var insertedProductId = productService.Insert(product);
+                    return new GenericResponse<int>(insertedProductId);
                 }
                 catch (DuplicateProductException dup)
                 {

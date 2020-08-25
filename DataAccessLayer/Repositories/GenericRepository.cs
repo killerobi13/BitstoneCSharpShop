@@ -54,6 +54,24 @@ namespace Shop.Repository
             }
         }
 
+        public virtual TEntity GetFirstOrDefault(Expression<Func<TEntity, bool>> filter = null,string includeProperties = "")
+        {
+            IQueryable<TEntity> query = dbSet;
+            TEntity result = null;
+
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (filter != null)
+            {
+                result = query.FirstOrDefault(filter);
+            }
+
+            return result;
+        }
+
 
         public virtual IEnumerable<TEntity> GetPage(out int numberOfItems,
             int startIndex, 

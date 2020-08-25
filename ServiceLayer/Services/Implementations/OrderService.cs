@@ -30,43 +30,28 @@ namespace ServiceLayer.Services.Implementations
         Common.ViewModels.Order IOrderService.Insert(IEnumerable<OrderItemAdd> orderItemAdds, string userId)
         {
             Shop.DAL.Entities.Order dalOrder = new Shop.DAL.Entities.Order();
-            int total = 0;
             dalOrder.OrderItems = new List<Shop.DAL.Entities.OrderItem>();
-            Dictionary<int, Shop.DAL.Entities.Product> products = new Dictionary<int, Shop.DAL.Entities.Product>();
 
-            foreach (var orderItem in orderItemAdds)
-            {
-                try
-                {
-                    products.Add(orderItem.ProductId, unitOfWork.ProductRepository.GetByID(orderItem.ProductId));
-                }catch
-                {
-                    orderItemAdds = orderItemAdds.Where(t => t.ProductId != orderItem.ProductId);
-                }
-            }
-
-            foreach (var orderItem in orderItemAdds)
-            {
-                var product = products[orderItem.ProductId];
-                total += product.Price * orderItem.Quantity;
-            }
-
-            dalOrder.Total = total;
             dalOrder.PurchaseDate = DateTime.Now;
             dalOrder.UserId = userId;
 
-            var orderId = dalOrder.Id;
-
             foreach (var orderItem in orderItemAdds)
             {
-                Shop.DAL.Entities.OrderItem oi = new Shop.DAL.Entities.OrderItem();
-                oi.Quantity = orderItem.Quantity;
-                oi.ProductId = orderItem.ProductId;
-                oi.OrderId = orderId;
-                oi.Price = products[orderItem.ProductId].Price;
-                dalOrder.OrderItems.Add(oi);
-                //unitOfWork.OrderItemRepository.Insert(oi);
+                if(!dalOrder.OrderItems.Any(t=>t.ProductId==orderItem.ProductId))
+                {
+                    var product = unitOfWork.ProductRepository.GetByID(orderItem.ProductId);
+
+                    dalOrder.Total += product.Price * orderItem.Quantity; 
+
+                    var orderItemDal = new Shop.DAL.Entities.OrderItem();
+                    orderItemDal.Quantity = orderItem.Quantity;
+                    orderItemDal.ProductId = orderItem.ProductId;
+                    orderItemDal.Price = product.Price;
+                    dalOrder.OrderItems.Add(orderItemDal);
+
+                }
             }
+
             unitOfWork.OrderRepository.Insert(dalOrder);
             unitOfWork.Save();
             return mapper.Map<Shop.DAL.Entities.Order, Common.ViewModels.Order>(dalOrder);
