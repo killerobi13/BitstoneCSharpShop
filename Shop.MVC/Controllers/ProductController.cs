@@ -68,19 +68,19 @@ namespace Shop.MVC.Controllers
         [Authorize(Roles = "Admin")]
 
         [HttpPost]
-        public ActionResult EditProduct(Product p)
+        public ActionResult EditProduct(Product newProduct)
         {
             if(ModelState.IsValid)
             {
-                productService.Update(p);
+                productService.Update(newProduct);
                 return RedirectToAction("List");
             }
             else
             {
-                ProductEdit pe = new ProductEdit();
-                pe.Product = p;
-                pe.Categories = categoryService.GetAll();
-                return View("Edit", pe);
+                ProductEdit editedProduct = new ProductEdit();
+                editedProduct.Product = newProduct;
+                editedProduct.Categories = categoryService.GetAll();
+                return View("Edit", editedProduct);
 
             }
 
